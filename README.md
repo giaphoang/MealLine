@@ -72,9 +72,10 @@ React, Vite, Express, Prisma, SQLite, Next.js, TypeScript, PostgreSQL, Python, P
 
 ## Documentation
 
+- [Project structure and architecture](docs/architecture.md)
 - [Detailed setup, configuration, and recovery](docs/setup.md)
 - [Successful calls and obstacle handling](docs/call-examples-and-obstacle-handling.md)
-- [Architecture and verification limits](docs/feed-integration.md)
+- [FEED integration and verification limits](docs/feed-integration.md)
 - [Note for hackathon judges and organizers](docs/hackathon-organizer-note.md)
 
 This is a prototype, not a production-readiness guarantee. Live provider validation and existing frontend type-check issues remain; see the verification notes above.

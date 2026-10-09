@@ -1,0 +1,1193 @@
+@import 'tailwindcss' source(none);
+
+@source '../index.html';
+@source '../src';
+
+@plugin 'tailwindcss-animate';
+
+@custom-variant dark (&:is(.dark *));
+
+/* Mirrors the v3 `theme.container` config: centered, 2rem gutter, and a
+   max-width only at the custom 1400px breakpoint. */
+@utility container {
+  margin-inline: auto;
+  padding-inline: 2rem;
+  @media (width >= --theme(--breakpoint-sm)) {
+    max-width: none;
+  }
+  @media (width >= 1400px) {
+    max-width: 1400px;
+  }
+}
+
+/*
+  `inline` is load-bearing. It makes Tailwind paste `var(--border)` into
+  each utility instead of emitting `--color-border` on `:root`. That keeps the
+  v3 behaviour where a *nested* element can retheme the app by overriding the
+  raw token — which `.print-theme` and `.shopping-list-print-page` both rely on.
+  It also lets the shadow keys point at the runtime `--shadow-*` tokens below
+  without becoming self-referential declarations.
+*/
+@theme inline {
+  --color-border: var(--border);
+  --color-input: var(--input);
+  --color-ring: var(--ring);
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+
+  --color-primary: var(--primary);
+  --color-primary-foreground: var(--primary-foreground);
+
+  --color-secondary: var(--secondary);
+  --color-secondary-foreground: var(--secondary-foreground);
+
+  --color-destructive: var(--destructive);
+  --color-destructive-foreground: var(--destructive-foreground);
+
+  --color-muted: var(--muted);
+  --color-muted-foreground: var(--muted-foreground);
+
+  --color-accent: var(--accent);
+  --color-accent-foreground: var(--accent-foreground);
+
+  --color-popover: var(--popover);
+  --color-popover-foreground: var(--popover-foreground);
+
+  --color-card: var(--card);
+  --color-card-foreground: var(--card-foreground);
+
+  --color-chart-primary: var(--chart-primary);
+  --color-chart-success: var(--chart-success);
+  --color-chart-warning: var(--chart-warning);
+  --color-chart-danger: var(--chart-danger);
+  --color-chart-info: var(--chart-info);
+  --color-chart-muted: var(--chart-muted);
+
+  --color-sidebar: var(--sidebar-background);
+  --color-sidebar-foreground: var(--sidebar-foreground);
+  --color-sidebar-primary: var(--sidebar-primary);
+  --color-sidebar-primary-foreground: var(--sidebar-primary-foreground);
+  --color-sidebar-accent: var(--sidebar-accent);
+  --color-sidebar-accent-foreground: var(--sidebar-accent-foreground);
+  --color-sidebar-border: var(--sidebar-border);
+  --color-sidebar-ring: var(--sidebar-ring);
+
+  /* Point the shadow scale at the themeable tokens defined in `:root` /
+     `.dark` / `.print-theme` below, exactly as the v3 config did. */
+  --shadow-2xs: var(--shadow-2xs);
+  --shadow-xs: var(--shadow-xs);
+  --shadow-sm: var(--shadow-sm);
+  --shadow: var(--shadow);
+  --shadow-md: var(--shadow-md);
+  --shadow-lg: var(--shadow-lg);
+  --shadow-xl: var(--shadow-xl);
+  --shadow-2xl: var(--shadow-2xl);
+  --shadow-realistic-sm: var(--shadow-realistic-sm);
+  --shadow-realistic: var(--shadow-realistic);
+  --shadow-realistic-lg: var(--shadow-realistic-lg);
+
+  --background-image-feed-card: var(--feed-card-gradient);
+  --background-image-feed-card-primary: var(--feed-card-gradient-primary);
+
+  --radius-lg: var(--radius);
+  --radius-md: calc(var(--radius) - 2px);
+  --radius-sm: calc(var(--radius) - 4px);
+
+  --animate-accordion-down: accordion-down 0.2s ease-out;
+  --animate-accordion-up: accordion-up 0.2s ease-out;
+}
+
+@keyframes accordion-down {
+  from {
+    height: 0;
+  }
+  to {
+    height: var(--radix-accordion-content-height);
+  }
+}
+
+@keyframes accordion-up {
+  from {
+    height: var(--radix-accordion-content-height);
+  }
+  to {
+    height: 0;
+  }
+}
+
+@layer base {
+  :root {
+    /* Status Flag Colors */
+    --status-success-bg: var(--color-green-50);
+    --status-success-border: var(--color-green-500);
+    --status-success-text: var(--color-green-700);
+    --status-warning-bg: var(--color-orange-100);
+    --status-warning-border: var(--color-amber-500);
+    --status-warning-text: var(--color-amber-500);
+    --status-danger-bg: var(--color-rose-50);
+    --status-danger-border: var(--color-red-500);
+    --status-danger-text: var(--color-red-800);
+    --status-neutral-bg: var(--color-gray-100);
+    --status-neutral-border: var(--color-slate-400);
+    --status-neutral-text: var(--color-slate-600);
+
+    /* Chart Colors */
+    --chart-primary: var(--primary);
+    --chart-success: hsl(142 71% 45%);
+    --chart-warning: hsl(38 92% 50%);
+    --chart-danger: hsl(0 84% 60%);
+    --chart-info: var(--primary);
+
+    /* Service Provider Colors */
+    --service-openai: hsl(1 0% 0%);
+    --service-anthropic: hsl(16 56% 60%);
+    --service-google: hsl(219 69% 54%);
+    --service-azure: hsl(212 65% 67%);
+    --chart-muted: var(--muted);
+    --chart-background: var(--muted);
+    --color-items: var(--primary);
+    --color-categoryLabel: var(--background);
+    --color-success: var(--chart-success);
+    --color-pending: var(--color-blue-500);
+    --color-time: var(--color-blue-500);
+    --color-label: var(--background);
+    --color-success-fill: var(--color-green-500);
+    --color-pending-fill: var(--color-blue-500);
+    --color-time-fill: var(--color-blue-500);
+    --color-items-fill: var(--color-blue-500);
+    --color-inStock: hsl(141, 53%, 53%);
+    --color-limited: hsl(39, 100%, 50%);
+    --color-clearance: hsl(3, 87%, 63%);
+    --color-outOfStock: hsl(0, 0%, 50%);  /* Updated to medium gray */
+
+    /* Authored fallback matches the compiled WTH Tailwind-derived theme. */
+    --background: var(--color-white);
+    --foreground: var(--color-zinc-900);
+    --card: var(--color-slate-50);
+    --card-foreground: var(--color-zinc-800);
+    --popover: var(--color-slate-50);
+    --popover-foreground: var(--color-slate-900);
+    --primary: var(--color-sky-700);
+    --primary-foreground: var(--color-white);
+    --secondary: var(--color-zinc-100);
+    --secondary-foreground: var(--color-zinc-900);
+    --muted: var(--color-mist-100);
+    --muted-foreground: var(--color-gray-500);
+    --accent: var(--color-teal-100);
+    --accent-foreground: var(--color-zinc-800);
+    --destructive: hsl(0 100% 50%);
+    --destructive-foreground: hsl(211 5% 99%);
+    --border: var(--color-slate-300);
+    --input: var(--color-sky-600);
+    --ring: var(--color-sky-700);
+    --radius: 1.3rem;
+    --sidebar-background: var(--color-slate-50);
+    --sidebar-foreground: var(--color-zinc-900);
+    --sidebar-primary: var(--color-sky-700);
+    --sidebar-primary-foreground: var(--color-white);
+    --sidebar-accent: var(--color-sky-100);
+    --sidebar-accent-foreground: var(--color-zinc-800);
+    --sidebar-border: var(--color-slate-300);
+    --sidebar-ring: var(--color-sky-700);
+
+    /* FEED app shell atmosphere */
+    --feed-shell-base-start: var(--color-slate-50);
+    --feed-shell-base-mid: var(--color-sky-50);
+    --feed-shell-base-end: var(--color-slate-200);
+    /* Plate behind a `dark-surface` logo — see BrandLogo. Light mode only. */
+    --feed-logo-surface: var(--color-slate-900);
+    --feed-shell-glow-primary: color-mix(in oklab, var(--color-sky-700) 9.0%, transparent);
+    --feed-shell-glow-secondary: color-mix(in oklab, var(--color-teal-500) 8.0%, transparent);
+    --feed-shell-haze: color-mix(in oklab, var(--color-yellow-300) 5.0%, transparent);
+    --feed-shell-veil: color-mix(in oklab, var(--color-white) 42.0%, transparent);
+    --feed-shell-panel-start: color-mix(in oklab, var(--card) 88%, transparent);
+    --feed-shell-panel-end: color-mix(in oklab, var(--color-mist-100) 76.0%, transparent);
+    /* Match the dark header's reviewed 0.55/0.45 opacity. The earlier #85
+       opacity adjustment did not fix Chrome's production-only loss of blur;
+       that was declaration ordering in .feed-shell-header-panel below. */
+    --feed-shell-header-start: color-mix(in oklab, var(--background) 55%, transparent);
+    --feed-shell-header-end: color-mix(in oklab, var(--background) 45%, transparent);
+    --feed-shell-card-start: color-mix(in oklab, var(--card) 94%, transparent);
+    --feed-shell-card-end: color-mix(in oklab, var(--color-mist-100) 84.0%, transparent);
+    --feed-shell-panel-border: color-mix(in oklab, var(--border) 72%, transparent);
+    --feed-shell-header-border: color-mix(in oklab, var(--border) 58%, transparent);
+    --feed-shell-surface-shadow: 0 24px 60px -44px color-mix(in oklab, var(--color-sky-950) 34.0%, transparent);
+    --feed-motion-duration-fast: 160ms;
+    --feed-motion-duration-medium: 220ms;
+    --feed-motion-ease-standard: cubic-bezier(0.22, 1, 0.36, 1);
+
+    /* Shadow scale — light mode (pure-black, geometry: x 1px / y 3.5px / blur 7px / spread 0.5px).
+       Tailwind's shadow-* utilities are remapped to these via the `@theme inline` block above. */
+    --shadow-color: var(--color-black);
+    --shadow-2xs: 1px 3.5px 7px 0.5px color-mix(in oklab, var(--color-black) 10.0%, transparent);
+    --shadow-xs: 1px 3.5px 7px 0.5px color-mix(in oklab, var(--color-black) 10.0%, transparent);
+    --shadow-sm: 1px 3.5px 7px 0.5px color-mix(in oklab, var(--color-black) 20.0%, transparent), 1px 1px 2px -0.5px color-mix(in oklab, var(--color-black) 20.0%, transparent);
+    --shadow: 1px 3.5px 7px 0.5px color-mix(in oklab, var(--color-black) 20.0%, transparent), 1px 1px 2px -0.5px color-mix(in oklab, var(--color-black) 20.0%, transparent);
+    --shadow-md: 1px 3.5px 7px 0.5px color-mix(in oklab, var(--color-black) 20.0%, transparent), 1px 2px 4px -0.5px color-mix(in oklab, var(--color-black) 20.0%, transparent);
+    --shadow-lg: 1px 3.5px 7px 0.5px color-mix(in oklab, var(--color-black) 20.0%, transparent), 1px 4px 6px -0.5px color-mix(in oklab, var(--color-black) 20.0%, transparent);
+    --shadow-xl: 1px 3.5px 7px 0.5px color-mix(in oklab, var(--color-black) 20.0%, transparent), 1px 8px 10px -0.5px color-mix(in oklab, var(--color-black) 20.0%, transparent);
+    --shadow-2xl: 1px 3.5px 7px 0.5px color-mix(in oklab, var(--color-black) 50.0%, transparent);
+
+    /* Legacy aliases — keep old `shadow-realistic*` utilities pointing to the new scale. */
+    --shadow-realistic-sm: var(--shadow-sm);
+    --shadow-realistic:    var(--shadow-md);
+    --shadow-realistic-lg: var(--shadow-lg);
+
+    /* Card surface gradient (subtle, perceptible only). */
+    --feed-card-gradient: linear-gradient(180deg, var(--card) 0%, color-mix(in oklab, var(--card) 94%, transparent) 100%);
+    --feed-card-gradient-primary: linear-gradient(180deg, color-mix(in oklab, var(--primary) 4%, transparent) 0%, var(--card) 100%);
+
+    /* Prism-style universal card-gradient tokens (color-mix).
+       Applied to every [data-slot="card"] (see @layer components).
+       Light: stronger primary tint (10%) at top, brighter highlight (92% card / 8% white)
+       at bottom, so the differential is perceptible on white surfaces. */
+    --card-gradient-start: color-mix(in srgb, var(--primary) 10%, var(--card));
+    --card-gradient-end:   color-mix(in srgb, var(--card) 92%, white);
+
+    /* Short-name motion aliases used by new visual rules. */
+    --feed-motion-fast: 160ms;
+    --feed-motion-medium: 220ms;
+    --feed-motion-ease: cubic-bezier(0.22, 1, 0.36, 1);
+
+    /* Modal enter/exit duration. Deliberately its own token rather than
+       reusing --feed-motion-medium, which card hover, sidebar icons, and the
+       generic icon motion all share — dialogs want a more gradual curve than
+       a hover response does. Single knob for tuning modal feel. */
+    --feed-motion-dialog: 440ms;
+  }
+
+  .dark {
+    /* Status Flag Colors */
+    --status-success-bg: var(--color-green-900);
+    --status-success-border: var(--color-green-600);
+    --status-success-text: var(--color-emerald-100);
+    --status-warning-bg: var(--color-yellow-950);
+    --status-warning-border: var(--color-orange-500);
+    --status-warning-text: var(--color-amber-500);
+    --status-danger-bg: var(--color-red-900);
+    --status-danger-border: var(--color-red-600);
+    --status-danger-text: var(--color-red-200);
+    --status-neutral-bg: var(--color-gray-800);
+    --status-neutral-border: var(--color-slate-400);
+    --status-neutral-text: var(--color-gray-200);
+
+    /* Chart Colors */
+    --chart-primary: var(--primary);
+    --chart-success: hsl(142 71% 50%);
+    --chart-warning: hsl(38 92% 55%);
+    --chart-danger: hsl(0 84% 65%);
+    --chart-info: var(--primary);
+
+    /* Service Provider Colors */
+    --service-openai: hsl(1 0% 100%);
+    --service-anthropic: hsl(16 56% 60%);
+    --service-google: hsl(219 69% 54%);
+    --service-azure: hsl(212 65% 67%);
+    --chart-muted: var(--muted);
+    --chart-background: var(--muted);
+    --color-items: var(--primary);
+    --color-categoryLabel: var(--background);
+    --color-success: var(--chart-success);
+    --color-pending: var(--color-blue-400);
+    --color-time: var(--color-blue-400);
+    --color-label: var(--background);
+    --color-success-fill: var(--color-green-400);
+    --color-pending-fill: var(--color-blue-400);
+    --color-time-fill: var(--color-blue-400);
+    --color-items-fill: var(--color-blue-400);
+    --color-inStock: hsl(141, 53%, 40%);
+    --color-limited: hsl(39, 100%, 45%);
+    --color-clearance: hsl(3, 87%, 55%);
+    --color-outOfStock: hsl(0, 0%, 50%);  /* Updated to medium gray */
+
+    --background: var(--color-black);
+    --foreground: var(--color-white);
+    --card: var(--color-slate-900);
+    --card-foreground: var(--color-white);
+    --popover: var(--color-gray-950);
+    --popover-foreground: var(--color-white);
+    --primary: var(--color-yellow-300);
+    --primary-foreground: var(--color-sky-700);
+    --secondary: var(--color-zinc-800);
+    --secondary-foreground: var(--color-zinc-50);
+    --muted: var(--color-slate-800);
+    --muted-foreground: var(--color-gray-400);
+    --accent: var(--color-gray-800);
+    --accent-foreground: var(--color-mauve-100);
+    --destructive: hsl(0 100% 50%);
+    --destructive-foreground: hsl(222 5% 100%);
+    --border: var(--color-sky-700);
+    --input: var(--color-sky-700);
+    --ring: var(--color-gray-800);
+    --radius: 1.3rem;
+    --sidebar-background: var(--color-slate-900);
+    --sidebar-foreground: var(--color-white);
+    --sidebar-primary: var(--color-gray-800);
+    --sidebar-primary-foreground: var(--color-white);
+    --sidebar-accent: var(--color-blue-900);
+    --sidebar-accent-foreground: var(--color-white);
+    --sidebar-border: var(--color-blue-900);
+    --sidebar-ring: var(--color-gray-800);
+
+    /* FEED app shell atmosphere */
+    --feed-shell-base-start: var(--color-gray-900);
+    --feed-shell-base-mid: var(--color-slate-800);
+    --feed-shell-base-end: var(--color-slate-800);
+    --feed-logo-surface: transparent;
+    --feed-shell-glow-primary: color-mix(in oklab, var(--color-blue-500) 20.0%, transparent);
+    --feed-shell-glow-secondary: color-mix(in oklab, var(--color-indigo-400) 16.0%, transparent);
+    --feed-shell-haze: color-mix(in oklab, var(--color-slate-400) 6.0%, transparent);
+    --feed-shell-veil: color-mix(in oklab, var(--color-gray-900) 20.0%, transparent);
+    --feed-shell-panel-start: color-mix(in oklab, var(--card) 82%, transparent);
+    --feed-shell-panel-end: color-mix(in oklab, var(--color-gray-900) 70.0%, transparent);
+    /* Not the panel tokens. Those are sized for near-solid surfaces (0.82 /
+       0.70), and composited over the header's own 0.4 background they left the
+       bar about 89% opaque — the frosted blur was applied and buried, so the
+       header read as plain transparency while the Analytics filter bar beside
+       it looked frosted. Dark needs a little more body than light to keep the
+       breadcrumb legible over bright content, but it has to stay translucent
+       enough for the blur to show. */
+    --feed-shell-header-start: color-mix(in oklab, var(--background) 55%, transparent);
+    --feed-shell-header-end: color-mix(in oklab, var(--background) 45%, transparent);
+    --feed-shell-card-start: color-mix(in oklab, var(--card) 88%, transparent);
+    --feed-shell-card-end: color-mix(in oklab, var(--color-gray-900) 78.0%, transparent);
+    --feed-shell-panel-border: color-mix(in oklab, var(--border) 78%, transparent);
+    --feed-shell-header-border: var(--feed-shell-panel-border);
+    --feed-shell-surface-shadow: 0 28px 72px -52px color-mix(in oklab, var(--color-gray-950) 86.0%, transparent);
+
+    /* Dark shadows keep the established geometry but take their chroma from
+       the active brand rather than a hard-coded blue-purple glow. */
+    --shadow-color: var(--color-sky-400);
+    --shadow-2xs: 1px 3.5px 10.5px 0.5px color-mix(in oklab, var(--color-sky-400) 20.0%, transparent);
+    --shadow-xs: 1px 3.5px 10.5px 0.5px color-mix(in oklab, var(--color-sky-400) 22.0%, transparent);
+    --shadow-sm: 1px 3.5px 10.5px 0.5px color-mix(in oklab, var(--color-sky-400) 35.0%, transparent), 1px 1px 2px -0.5px color-mix(in oklab, var(--color-sky-400) 40.0%, transparent);
+    --shadow: 1px 3.5px 10.5px 0.5px color-mix(in oklab, var(--color-sky-400) 40.0%, transparent), 1px 1px 2px -0.5px color-mix(in oklab, var(--color-sky-400) 45.0%, transparent);
+    --shadow-md: 1px 3.5px 14px   0.5px color-mix(in oklab, var(--color-sky-400) 45.0%, transparent), 1px 2px 4px -0.5px color-mix(in oklab, var(--color-sky-400) 50.0%, transparent);
+    --shadow-lg: 1px 3.5px 20px   1px   color-mix(in oklab, var(--color-sky-400) 55.0%, transparent), 1px 4px 6px -0.5px color-mix(in oklab, var(--color-sky-400) 55.0%, transparent);
+    --shadow-xl: 1px 3.5px 28px   2px   color-mix(in oklab, var(--color-sky-400) 60.0%, transparent), 1px 8px 10px -0.5px color-mix(in oklab, var(--color-sky-400) 55.0%, transparent);
+    --shadow-2xl: 1px 3.5px 40px   3px   color-mix(in oklab, var(--color-sky-400) 75.0%, transparent);
+
+    --shadow-realistic-sm: var(--shadow-sm);
+    --shadow-realistic:    var(--shadow-lg);
+    --shadow-realistic-lg: var(--shadow-xl);
+
+    /* Card gradients follow the active semantic surface and accent roles. */
+    --feed-card-gradient: linear-gradient(135deg, var(--color-gray-900) 0%, var(--color-slate-800) 100%);
+    --feed-card-gradient-primary: linear-gradient(135deg, var(--color-gray-900) 0%, var(--color-cyan-950) 100%);
+
+    /* Prism-style universal card-gradient tokens (dark). */
+    --card-gradient-start: color-mix(in srgb, var(--primary) 9%, var(--card));
+    --card-gradient-end:   color-mix(in srgb, var(--card) 92%, black);
+
+    /* Atmospheric body backdrop, derived from the active brand. */
+    --feed-shell-base-start: var(--color-gray-900);
+    --feed-shell-base-mid: var(--color-slate-800);
+    --feed-shell-base-end: var(--color-slate-800);
+    --feed-shell-glow-primary: color-mix(in oklab, var(--color-blue-500) 20.0%, transparent);
+    --feed-shell-glow-secondary: color-mix(in oklab, var(--color-indigo-400) 16.0%, transparent);
+    --feed-shell-haze: color-mix(in oklab, var(--color-slate-400) 6.0%, transparent);
+    --feed-shell-veil: color-mix(in oklab, var(--color-gray-900) 20.0%, transparent);
+    --feed-app-backdrop:
+      linear-gradient(180deg, transparent 0%, var(--feed-shell-veil) 100%),
+      radial-gradient(144% 112% at 16% 86%, var(--feed-shell-glow-primary)   0%, transparent 62%),
+      radial-gradient(98%  78% at 78% 14%, var(--feed-shell-glow-secondary) 0%, transparent 54%),
+      radial-gradient(88%  68% at 52% 42%, var(--feed-shell-haze)            0%, transparent 70%),
+      linear-gradient(138deg, var(--feed-shell-base-start) 0%, var(--feed-shell-base-mid) 46%, var(--feed-shell-base-end) 100%);
+  }
+
+  .print-theme {
+    /* Print-specific theme overrides */
+    --background: hsl(0 0% 100%);
+    --foreground: hsl(0 0% 0%);
+    --card: hsl(0 0% 99%);
+    --card-foreground: hsl(0 0% 10%);
+    --muted: hsl(0 0% 95%);
+    --muted-foreground: hsl(0 0% 40%);
+    --border: hsl(0 0% 82%);
+    --primary: hsl(211 60% 40%);
+    --primary-foreground: hsl(0 0% 100%);
+    --feed-shell-base-start: hsl(0 0% 100%);
+    --feed-shell-base-mid: hsl(0 0% 100%);
+    --feed-shell-base-end: hsl(0 0% 100%);
+    --feed-shell-glow-primary: transparent;
+    --feed-shell-glow-secondary: transparent;
+    --feed-shell-haze: transparent;
+    --feed-shell-veil: transparent;
+    --feed-shell-panel-start: hsl(0 0% 100%);
+    --feed-shell-panel-end: hsl(0 0% 100%);
+    --feed-shell-header-start: hsl(0 0% 100%);
+    --feed-shell-header-end: hsl(0 0% 100%);
+    --feed-shell-card-start: hsl(0 0% 100%);
+    --feed-shell-card-end: hsl(0 0% 100%);
+    --feed-shell-panel-border: hsl(0 0% 82%);
+    --feed-shell-header-border: hsl(0 0% 82%);
+    --feed-shell-surface-shadow: none;
+
+    /* Status Flag Colors - Light Mode */
+    --status-success-bg: hsl(142 76% 97%);
+    --status-success-border: hsl(142 71% 45%);
+    --status-success-text: hsl(142 71% 30%);
+    --status-warning-bg: hsl(38 100% 92%);
+    --status-warning-border: hsl(38 92% 50%);
+    --status-warning-text: hsl(38 100% 50%);
+    --status-danger-bg: hsl(0 84% 97%);
+    --status-danger-border: hsl(0 84% 60%);
+    --status-danger-text: hsl(0 84% 30%);
+    --status-neutral-bg: hsl(220 14% 96%);
+    --status-neutral-border: hsl(220 14% 60%);
+    --status-neutral-text: hsl(220 14% 40%);
+
+    /* Print must never carry app shadows or gradients. */
+    --shadow-2xs: 0 0 #0000;
+    --shadow-xs:  0 0 #0000;
+    --shadow-sm:  0 0 #0000;
+    --shadow:     0 0 #0000;
+    --shadow-md:  0 0 #0000;
+    --shadow-lg:  0 0 #0000;
+    --shadow-xl:  0 0 #0000;
+    --shadow-2xl: 0 0 #0000;
+    --shadow-realistic-sm: 0 0 #0000;
+    --shadow-realistic:    0 0 #0000;
+    --shadow-realistic-lg: 0 0 #0000;
+    --feed-card-gradient: none;
+    --feed-card-gradient-primary: none;
+    --card-gradient-start: hsl(0 0% 100%);
+    --card-gradient-end: hsl(0 0% 100%);
+  }
+  .maplibregl-popup-content {
+    @apply bg-transparent! shadow-none! p-0! rounded-none!;
+  }
+  .maplibregl-popup-tip {
+    @apply hidden!;
+  }
+  .maplibregl-ctrl-attrib {
+    @apply bg-background! text-muted-foreground! border-border! rounded-md! border! shadow-sm!;
+  }
+  .maplibregl-ctrl-attrib a {
+    @apply text-muted-foreground!;
+  }
+  .maplibregl-ctrl-attrib a:hover {
+    @apply text-foreground!;
+  }
+  .maplibregl-ctrl-attrib-button {
+    @apply bg-transparent! dark:invert;
+  }
+}
+
+@layer components {
+  /* Dark-mode atmospheric backdrop. Applied automatically to body in dark.
+     Light mode keeps the plain background. */
+  .dark body {
+    background: var(--feed-app-backdrop);
+    background-attachment: fixed;
+  }
+
+  /* Universal card gradient (Prism pattern).
+     Every Card carrying `data-slot="card"` gets a subtle vertical gradient.
+     Direction: bottom → top, lighter primary tint at the top, neutral at base. */
+  [data-slot="card"] {
+    background-image: linear-gradient(
+      to top,
+      var(--card-gradient-start),
+      var(--card-gradient-end)
+    );
+  }
+  .print-theme [data-slot="card"] {
+    background-image: none;
+  }
+
+  /* Opt-in card surface: subtle gradient + realistic shadow.
+     Apply via data-feed-card-surface="soft" on a <Card> or wrapper. */
+  [data-feed-card-surface="soft"] {
+    background-image: var(--feed-card-gradient);
+    box-shadow: var(--shadow-realistic);
+  }
+  [data-feed-card-surface="soft"][data-feed-card-gradient="primary"] {
+    background-image: var(--feed-card-gradient-primary);
+  }
+  [data-feed-card-interactive="true"] {
+    transition:
+      border-color var(--feed-motion-medium) var(--feed-motion-ease),
+      box-shadow var(--feed-motion-medium) var(--feed-motion-ease),
+      transform var(--feed-motion-medium) var(--feed-motion-ease);
+  }
+  [data-feed-card-interactive="true"]:is(:hover, :focus-within) {
+    transform: translateY(-1px);
+    box-shadow: var(--shadow-realistic-lg);
+  }
+  /* Print + reduced-motion safety. */
+  .print-theme [data-feed-card-surface="soft"],
+  .print-theme [data-feed-card-interactive="true"] {
+    background-image: none;
+    box-shadow: none;
+    transform: none;
+  }
+  /* Sidebar nav icon micro-motion (no new dependency).
+     Applies to any shadcn sidebar menu button. */
+  [data-sidebar="menu-button"] > svg,
+  [data-sidebar="menu-sub-button"] > svg {
+    transition: transform var(--feed-motion-medium) var(--feed-motion-ease);
+  }
+  [data-sidebar="menu-button"]:hover > svg,
+  [data-sidebar="menu-sub-button"]:hover > svg {
+    transform: translateX(1px) scale(1.08);
+  }
+
+  /* Breadcrumb separator tactility. */
+  [data-slot="breadcrumb-separator"] > svg,
+  nav[aria-label="breadcrumb"] li[role="presentation"] svg {
+    transition: transform var(--feed-motion-fast) var(--feed-motion-ease);
+  }
+  nav[aria-label="breadcrumb"] li:hover + li[role="presentation"] svg {
+    transform: translateX(1px);
+  }
+
+  /* Generic interactive-icon affordance: signals "this is clickable".
+     Applies to direct-child SVGs inside buttons, links, menu items, and tabs.
+     - Mount: perceptible pop-in (820ms, once per mount).
+     - Hover: scale-up + lift (re-triggers every hover, so it's observable
+       after the initial mount animation has played).
+     - Press: scale-down bounce (350ms one-shot) for tactile feedback.
+     Opt-out per element with `data-feed-no-icon-motion="true"`. */
+  @keyframes feed-icon-mount {
+    0%   { transform: translateY(6px) scale(0.58); opacity: 0; }
+    48%  { transform: translateY(-1px) scale(1.12); opacity: 1; }
+    72%  { transform: translateY(0) scale(0.97); opacity: 1; }
+    100% { transform: translateY(0) scale(1); opacity: 1; }
+  }
+  @keyframes feed-icon-press {
+    0%   { transform: scale(1); }
+    35%  { transform: scale(0.82); }
+    70%  { transform: scale(1.06); }
+    100% { transform: scale(1); }
+  }
+  @keyframes feed-icon-pulse {
+    0%, 100% { transform: scale(1); opacity: 0.82; }
+    50%      { transform: scale(1.12); opacity: 1; }
+  }
+  :where(
+    button,
+    a,
+    [role="button"],
+    [role="link"],
+    [role="menuitem"],
+    [role="menuitemradio"],
+    [role="menuitemcheckbox"],
+    [role="tab"],
+    [role="switch"],
+    [role="checkbox"],
+    [role="radio"],
+    [role="combobox"],
+    [role="option"]
+  ):not([data-feed-no-icon-motion="true"], [data-feed-icon-motion="none"]) > svg:not([data-feed-animated-icon="true"]) {
+    animation: feed-icon-mount 820ms var(--feed-motion-ease) both;
+    animation-delay: var(--feed-icon-motion-delay, 35ms);
+    transition:
+      transform var(--feed-motion-medium) var(--feed-motion-ease),
+      filter var(--feed-motion-medium) var(--feed-motion-ease);
+    transform-origin: center;
+    will-change: transform;
+  }
+
+  /* Chrome surfaces (header + sidebar): keep hover + press feedback, but
+     suppress the generic mount animation so app load isn't a flurry of
+     popping icons. */
+  header svg,
+  [data-sidebar="sidebar"] svg {
+    animation: none !important;
+  }
+  :where(
+    button,
+    a,
+    [role="button"],
+    [role="link"],
+    [role="menuitem"],
+    [role="menuitemradio"],
+    [role="menuitemcheckbox"],
+    [role="tab"],
+    [role="switch"],
+    [role="checkbox"],
+    [role="radio"],
+    [role="combobox"],
+    [role="option"]
+  )[data-feed-icon-motion="subtle"] > svg:not([data-feed-animated-icon="true"]) {
+    animation-duration: 680ms;
+    opacity: 0.92;
+  }
+  :where(
+    button,
+    a,
+    [role="button"],
+    [role="link"],
+    [role="menuitem"],
+    [role="menuitemradio"],
+    [role="menuitemcheckbox"],
+    [role="tab"],
+    [role="switch"],
+    [role="checkbox"],
+    [role="radio"],
+    [role="combobox"],
+    [role="option"]
+  )[data-feed-icon-motion="pulse"] > svg:not([data-feed-animated-icon="true"]) {
+    animation:
+      feed-icon-mount 820ms var(--feed-motion-ease) both,
+      feed-icon-pulse 1250ms var(--feed-motion-ease) 900ms infinite;
+  }
+  :where(
+    button,
+    a,
+    [role="button"],
+    [role="link"],
+    [role="menuitem"],
+    [role="menuitemradio"],
+    [role="menuitemcheckbox"],
+    [role="tab"],
+    [role="switch"],
+    [role="checkbox"],
+    [role="radio"],
+    [role="combobox"],
+    [role="option"]
+  ):not([data-feed-no-icon-motion="true"], [data-feed-icon-motion="none"]):hover > svg:not([data-feed-animated-icon="true"]) {
+    transform: scale(1.12) translateY(-1px);
+  }
+  :where(
+    button,
+    a,
+    [role="button"],
+    [role="link"],
+    [role="menuitem"],
+    [role="menuitemradio"],
+    [role="menuitemcheckbox"],
+    [role="tab"],
+    [role="switch"],
+    [role="checkbox"],
+    [role="radio"],
+    [role="combobox"],
+    [role="option"]
+  ):not([data-feed-no-icon-motion="true"], [data-feed-icon-motion="none"]):active > svg:not([data-feed-animated-icon="true"]) {
+    animation: feed-icon-press 350ms var(--feed-motion-ease);
+  }
+  /* Print path renders without animation. */
+  .print-theme :where(button, a, [role="button"], [role="menuitem"]) > svg,
+  .print-theme [data-feed-animated-icon="true"] {
+    animation: none !important;
+    transition: none !important;
+    transform: none !important;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    [data-feed-card-interactive="true"] {
+      transition: none;
+    }
+    [data-feed-card-interactive="true"]:is(:hover, :focus-within) {
+      transform: none;
+    }
+    [data-sidebar="menu-button"] > svg,
+    [data-sidebar="menu-sub-button"] > svg,
+    [data-slot="breadcrumb-separator"] > svg,
+    nav[aria-label="breadcrumb"] li[role="presentation"] svg {
+      transition: none;
+    }
+    [data-sidebar="menu-button"]:hover > svg,
+    [data-sidebar="menu-sub-button"]:hover > svg,
+    nav[aria-label="breadcrumb"] li:hover + li[role="presentation"] svg {
+      transform: none;
+    }
+    :where(
+      button,
+      a,
+      [role="button"],
+      [role="menuitem"],
+      [role="menuitemradio"],
+      [role="menuitemcheckbox"],
+      [role="tab"],
+      [role="switch"],
+      [role="checkbox"],
+      [role="radio"],
+      [role="combobox"],
+      [role="option"]
+    ) > svg {
+      animation: none;
+      transition: none;
+    }
+    :where(
+      button,
+      a,
+      [role="button"],
+      [role="menuitem"],
+      [role="menuitemradio"],
+      [role="menuitemcheckbox"],
+      [role="tab"],
+      [role="switch"],
+      [role="checkbox"],
+      [role="radio"],
+      [role="combobox"],
+      [role="option"]
+    ):active > svg {
+      transform: none;
+    }
+    [data-feed-animated-icon="true"] {
+      animation: none !important;
+      transition: none !important;
+      transform: none !important;
+    }
+
+    /* Every Radix surface — dialogs, alert dialogs, popovers, dropdowns,
+       selects, tooltips, toasts, sheets — animates via tailwindcss-animate's
+       `enter`/`exit` keyframes, which compose opacity with translate, scale
+       and rotate in a single `transform`. Zeroing only the motion channels
+       and leaving `--tw-*-opacity` alone leaves those surfaces cross-fading
+       but never moving. A fade is not motion, and it beats a hard cut: the
+       modal still reads as arriving rather than blinking into existence.
+
+       Keeping a real animation running is also load-bearing, not just
+       cosmetic. Radix waits on `animationend` before unmounting an exiting
+       surface, so `animation: none` here would change behaviour — panels
+       would unmount on a different tick — rather than only appearance.
+
+       `!important` is required. The utilities that set these variables are
+       variant-scoped (`data-[state=open]:zoom-in-95` compiles with an
+       attribute selector, specificity 0-2-0), and a media query contributes
+       no specificity of its own, so nothing this block could write would
+       otherwise outrank them. Applied via `*` because the utilities set the
+       variables on the animating element itself, which beats inheritance
+       from a `:root` declaration. */
+    *,
+    ::before,
+    ::after {
+      --tw-enter-translate-x: 0 !important;
+      --tw-enter-translate-y: 0 !important;
+      --tw-enter-scale: 1 !important;
+      --tw-enter-rotate: 0 !important;
+      --tw-exit-translate-x: 0 !important;
+      --tw-exit-translate-y: 0 !important;
+      --tw-exit-scale: 1 !important;
+      --tw-exit-rotate: 0 !important;
+    }
+  }
+}
+
+@layer base {
+  @font-face {
+    font-family: 'Noto Sans';
+    src: url('/fonts/noto-sans/NotoSans-Regular.ttf') format('truetype');
+    font-style: normal;
+    font-weight: 400;
+    font-display: swap;
+  }
+
+  @font-face {
+    font-family: 'Noto Sans';
+    src: url('/fonts/noto-sans/NotoSans-Bold.ttf') format('truetype');
+    font-style: normal;
+    font-weight: 700;
+    font-display: swap;
+  }
+
+  @font-face {
+    font-family: 'Noto Sans';
+    src: url('/fonts/noto-sans/NotoSans-Italic.ttf') format('truetype');
+    font-style: italic;
+    font-weight: 400;
+    font-display: swap;
+  }
+
+  @font-face {
+    font-family: 'Noto Sans';
+    src: url('/fonts/noto-sans/NotoSans-BoldItalic.ttf') format('truetype');
+    font-style: italic;
+    font-weight: 700;
+    font-display: swap;
+  }
+
+  /* Noto Sans Symbols 2 supplements Noto Sans with broad math, arrow,
+     dingbat, currency, technical and geometric symbol coverage. The
+     browser falls through to it when Noto Sans lacks a glyph. */
+  @font-face {
+    font-family: 'Noto Sans Symbols 2';
+    src: url('/fonts/noto-sans/NotoSansSymbols2-Regular.ttf') format('truetype');
+    font-style: normal;
+    font-weight: 400;
+    font-display: swap;
+  }
+
+  @font-face {
+    font-family: 'Noto Sans Symbols';
+    src: url('/fonts/noto-sans/NotoSansSymbols-Regular.ttf') format('truetype');
+    font-style: normal;
+    font-weight: 400;
+    font-display: swap;
+  }
+
+  @font-face {
+    font-family: 'Noto Naskh Arabic';
+    src: url('/fonts/noto-sans/NotoNaskhArabic-Regular.ttf') format('truetype');
+    font-style: normal;
+    font-weight: 400;
+    font-display: swap;
+  }
+
+  @font-face {
+    font-family: 'Noto Naskh Arabic';
+    src: url('/fonts/noto-sans/NotoNaskhArabic-Bold.ttf') format('truetype');
+    font-style: normal;
+    font-weight: 700;
+    font-display: swap;
+  }
+
+  @font-face {
+    font-family: 'Noto Sans Hebrew';
+    src: url('/fonts/noto-sans/NotoSansHebrew-Regular.ttf') format('truetype');
+    font-style: normal;
+    font-weight: 400;
+    font-display: swap;
+  }
+
+  @font-face {
+    font-family: 'Noto Sans Hebrew';
+    src: url('/fonts/noto-sans/NotoSansHebrew-Bold.ttf') format('truetype');
+    font-style: normal;
+    font-weight: 700;
+    font-display: swap;
+  }
+
+  /*
+    v4 changed the default border colour from gray-200 to `currentcolor`.
+    The rule below restores the v3 default for pseudo-elements, which the
+    `*` rule that follows does not match. Both together reproduce exactly
+    what v3 preflight + the old `* { @apply border-border }` produced.
+  */
+  ::after,
+  ::before,
+  ::backdrop,
+  ::file-selector-button {
+    border-color: var(--color-gray-200, currentcolor);
+  }
+
+  * {
+    @apply border-border;
+  }
+  body {
+    @apply bg-background text-foreground;
+  }
+
+  ::view-transition-old(root),
+  ::view-transition-new(root) {
+    animation: none;
+    mix-blend-mode: normal;
+  }
+
+  /*
+   * The theme change on engines without the View Transitions API — Safari 15.4
+   * on the iPad mini 4 among them. `runThemeTransition` adds this class for the
+   * length of the change and then removes it, so ordinary hover and focus
+   * transitions are untouched the rest of the time.
+   *
+   * The circular reveal needs the old and new frames on screen together, which
+   * is what the missing API provides for free. It can be approximated by
+   * cloning the DOM for the second rendering — measured as feasible on the A8,
+   * see AGENTS.md — but that costs a layout of the whole page up front and
+   * brings portals, scroll offsets and canvas along with it. Interpolating the
+   * colours in place buys most of the effect for none of that: nothing
+   * disappears, the theme simply dissolves.
+   *
+   * The property list is deliberately short. Colour interpolation runs on the
+   * main thread, and this has to stay cheap on an A8 with a full dashboard on
+   * screen. `!important` is what lets one brief rule outrank the per-component
+   * transitions it overlaps with.
+   */
+  .theme-crossfade,
+  .theme-crossfade *,
+  .theme-crossfade *::before,
+  .theme-crossfade *::after {
+    transition:
+      background-color 420ms ease,
+      border-color 420ms ease,
+      color 420ms ease,
+      fill 420ms ease,
+      stroke 420ms ease !important;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .theme-crossfade,
+    .theme-crossfade *,
+    .theme-crossfade *::before,
+    .theme-crossfade *::after {
+      transition: none !important;
+    }
+  }
+}
+
+@layer components {
+  .feed-shell-backdrop {
+    background-image: linear-gradient(
+      138deg,
+      var(--feed-shell-base-start) 0%,
+      var(--feed-shell-base-mid) 48%,
+      var(--feed-shell-base-end) 100%
+    );
+  }
+
+  .feed-shell-backdrop::before,
+  .feed-shell-backdrop::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+  }
+
+  .feed-shell-backdrop::before {
+    background-image:
+      radial-gradient(130% 96% at 12% 88%, var(--feed-shell-glow-primary) 0%, transparent 62%),
+      radial-gradient(92% 72% at 82% 12%, var(--feed-shell-glow-secondary) 0%, transparent 58%),
+      radial-gradient(74% 56% at 54% 42%, var(--feed-shell-haze) 0%, transparent 70%);
+    opacity: 0.9;
+  }
+
+  .feed-shell-backdrop::after {
+    background-image: linear-gradient(180deg, transparent 0%, var(--feed-shell-veil) 100%);
+  }
+
+  .feed-shell-panel {
+    border-color: var(--feed-shell-panel-border);
+    background-image: linear-gradient(180deg, var(--feed-shell-panel-start), var(--feed-shell-panel-end));
+    box-shadow: var(--feed-shell-surface-shadow);
+    -webkit-backdrop-filter: blur(16px);
+    backdrop-filter: blur(16px);
+  }
+
+  .feed-shell-header-panel {
+    border-color: var(--feed-shell-header-border);
+    background-color: color-mix(in oklab, var(--background) 40%, transparent);
+    background-image: linear-gradient(180deg, var(--feed-shell-header-start), var(--feed-shell-header-end));
+    box-shadow: var(--feed-shell-surface-shadow);
+    /* Keep the standard declaration last: the production CSS optimizer drops
+       it when the prefixed declaration follows, leaving Chrome without blur. */
+    -webkit-backdrop-filter: blur(14px) saturate(1.5);
+    backdrop-filter: blur(14px) saturate(1.5);
+  }
+
+  .feed-shell-sidebar [data-sidebar="sidebar"] {
+    border-color: var(--feed-shell-panel-border);
+    background-color: color-mix(in oklab, var(--sidebar-background) 82%, transparent);
+    background-image: linear-gradient(180deg, var(--feed-shell-panel-start), var(--feed-shell-panel-end));
+    box-shadow: var(--feed-shell-surface-shadow);
+    -webkit-backdrop-filter: blur(16px);
+    backdrop-filter: blur(16px);
+  }
+
+  .feed-shell-card-surface,
+  [data-feed-card-surface="soft"] {
+    border-color: var(--feed-shell-panel-border);
+    background-image: linear-gradient(180deg, var(--feed-shell-card-start), var(--feed-shell-card-end));
+    box-shadow: var(--feed-shell-surface-shadow);
+  }
+
+  [data-feed-card-interactive="true"] {
+    transition:
+      border-color var(--feed-motion-duration-medium) var(--feed-motion-ease-standard),
+      box-shadow var(--feed-motion-duration-medium) var(--feed-motion-ease-standard),
+      transform var(--feed-motion-duration-medium) var(--feed-motion-ease-standard);
+  }
+
+  [data-feed-card-interactive="true"]:is(:hover, :focus-within) {
+    transform: translateY(-1px);
+    box-shadow: 0 22px 54px -42px color-mix(in oklab, var(--primary) 55%, transparent);
+  }
+
+  .print-theme .feed-shell-backdrop,
+  .print-theme .feed-shell-backdrop::before,
+  .print-theme .feed-shell-backdrop::after {
+    background-image: none;
+  }
+
+  .print-theme .feed-shell-panel,
+  .print-theme .feed-shell-header-panel,
+  .print-theme .feed-shell-sidebar [data-sidebar="sidebar"],
+  .print-theme .feed-shell-card-surface,
+  .print-theme [data-feed-card-surface="soft"] {
+    background-image: none;
+    box-shadow: none;
+    -webkit-backdrop-filter: none;
+    backdrop-filter: none;
+  }
+}
+
+@layer utilities {
+  /* Bell-dot notification icon styling */
+  .notification-dot-icon {
+    color: var(--color-clearance);
+  }
+
+  /* AI Configuration warning text styling */
+  .cost-limit-warning {
+    @apply text-destructive font-medium;
+  }
+
+  /* Shopping list builder print preview */
+  .shopping-list-print-workspace {
+    background: hsl(220 14% 92%);
+  }
+
+  .dark .shopping-list-print-workspace {
+    background: hsl(222 25% 8%);
+  }
+
+  .shopping-list-print-page-frame {
+    background: #ffffff;
+    outline: 2px solid #111827;
+    box-shadow: 0 18px 48px rgb(15 23 42 / 24%);
+  }
+
+  .shopping-list-print-page {
+    --background: hsl(0 0% 100%);
+    --foreground: hsl(224 71% 4%);
+    --card: hsl(0 0% 100%);
+    --card-foreground: hsl(224 71% 4%);
+    --muted: hsl(220 14% 96%);
+    --muted-foreground: hsl(220 9% 46%);
+    --border: hsl(220 13% 69%);
+    --primary: hsl(211 60% 40%);
+    --primary-foreground: hsl(0 0% 100%);
+    background: #ffffff;
+    color: #111827;
+    font-family: 'Noto Sans', 'Noto Sans Symbols', 'Noto Sans Symbols 2', 'Noto Naskh Arabic', 'Noto Sans Hebrew', Arial, Helvetica, sans-serif;
+  }
+
+  /* Recharts Tooltip Dark Mode Support */
+  .recharts-tooltip-wrapper .recharts-tooltip-label {
+    color: var(--popover-foreground) !important;
+  }
+
+  .recharts-tooltip-wrapper .recharts-tooltip-item-name {
+    color: var(--muted-foreground) !important;
+  }
+
+  .recharts-tooltip-wrapper .recharts-tooltip-item-value {
+    color: var(--popover-foreground) !important;
+  }
+
+  /* Table Layout and Text Truncation */
+  .table-fixed-layout {
+    table-layout: fixed;
+    width: 100%;
+  }
+
+  .table-fixed-layout td,
+  .table-fixed-layout th {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    min-width: 0;
+  }
+
+  /* Fixed column constraints are now handled via inline styles */
+
+  /* Translation Dialog Advanced Options Table Styling */
+  .translation-options-header {
+    @apply text-lg font-semibold text-foreground;
+  }
+
+  .translation-action-header {
+    @apply text-sm font-medium text-foreground leading-tight;
+  }
+
+  .translation-options-column {
+    @apply bg-muted/30;
+  }
+
+  .translation-action-column {
+    @apply bg-accent/20;
+  }
+
+  .translation-data-cell {
+    @apply bg-background;
+  }
+
+  .translation-data-cell-action {
+    @apply bg-background;
+  }
+
+  /* Built With Claude styling */
+  .built-with-claude {
+    font-family: 'Crimson Text', 'Times New Roman', Georgia, serif;
+    font-weight: 400;
+  }
+}
+
+/* Theme-aware organization identity. The unstamped selectors are required:
+   FEED's theme contract supports following the device without a `.light` or
+   `.dark` class on the root element. */
+.brand-logo-light {
+  display: block;
+}
+
+.brand-logo-dark {
+  display: none;
+}
+
+.dark .brand-logo-light {
+  display: none;
+}
+
+.dark .brand-logo-dark {
+  display: block;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root:not(.light):not(.dark) .brand-logo-light {
+    display: none;
+  }
+
+  :root:not(.light):not(.dark) .brand-logo-dark {
+    display: block;
+  }
+}
+
+/* Reports selection mode (Reports initiative §3): eligible cards get a
+   subtle staggered wiggle; selected cards stop moving and show a
+   token-based ring + checkmark + order number. Reduced-motion users get
+   the static ring/check affordances only. */
+/* Tilt is a variable because a rotation's visible motion scales with the
+   element's width: the same 1.6deg that reads as a nudge on a half-width card
+   throws the corner of a full-width table several times as far. SelectableBlock
+   measures each block and scales the angle down so every block displaces about
+   the same distance. The defaults reproduce the original fixed amplitude
+   exactly, so a block that is never measured looks as it always did.
+
+   The horizontal slide is NOT scaled: a translate moves the same 2px whatever
+   the element's width, so it needs no correction. */
+@keyframes report-card-wiggle {
+  0% {
+    transform: translate3d(-2px, 0, 0) rotate(calc(var(--report-wiggle-tilt, 1.6deg) * -1));
+  }
+  25% {
+    transform: translate3d(2px, 0, 0) rotate(var(--report-wiggle-tilt, 1.6deg));
+  }
+  50% {
+    transform: translate3d(-1px, 0, 0) rotate(calc(var(--report-wiggle-tilt, 1.6deg) * -0.625));
+  }
+  75% {
+    transform: translate3d(1px, 0, 0) rotate(calc(var(--report-wiggle-tilt, 1.6deg) * 0.625));
+  }
+  100% {
+    transform: translate3d(-2px, 0, 0) rotate(calc(var(--report-wiggle-tilt, 1.6deg) * -1));
+  }
+}
+
+.report-selectable {
+  animation: report-card-wiggle var(--report-wiggle-duration, 970ms)
+    ease-in-out var(--report-wiggle-delay, 0ms) infinite;
+  transform-origin: center;
+  will-change: transform;
+}
+
+.report-selectable-selected {
+  animation: none;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .report-selectable {
+    animation: none;
+  }
+}

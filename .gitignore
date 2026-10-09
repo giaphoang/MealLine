@@ -1,0 +1,16 @@
+node_modules/
+.next/
+vendor/feed/packages/backend/dist/
+vendor/feed/packages/frontend/dist/
+packages/core/dist/
+.nourish/
+*.tsbuildinfo
+.env
+.env.local
+.env.*.local
+*.db
+*.db-wal
+*.db-shm
+*.db-journal
+feed-backup-*.json
+.DS_Store

@@ -1,0 +1,7 @@
+{
+  "name": "mealline-vendored-feed",
+  "version": "1.8.1",
+  "private": true,
+  "type": "commonjs",
+  "license": "AGPL-3.0-or-later"
+}

@@ -1,0 +1,2 @@
+FEED Schema Version,Service Date,Metric Key,Metric Label,Value,Value Type,Unit,Semantic Role,Source Sheet,Source Cell
+wth-service-tracking/1.0,2026-08-04,shopping_visits,Pantry Shopping Visits,70,count,households,served_household_method,August 2026,C3

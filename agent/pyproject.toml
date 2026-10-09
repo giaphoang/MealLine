@@ -1,0 +1,44 @@
+[build-system]
+requires = ["setuptools>=69"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "mealline-pipecat-agent"
+version = "0.1.0"
+description = "Pipecat Twilio food-assistance intake agent for MealLine"
+requires-python = ">=3.11"
+dependencies = [
+  "pipecat-ai[cartesia,deepgram,openai,runner,silero,websocket]>=0.0.105,<2",
+  "python-dotenv>=1.0,<2",
+]
+
+[project.optional-dependencies]
+test = [
+  "pytest>=8,<9",
+  "pytest-asyncio>=0.23,<1",
+  "ruff>=0.6,<1",
+  "mypy>=1.11,<2",
+]
+
+[tool.setuptools]
+packages = ["agent"]
+
+[tool.setuptools.package-dir]
+agent = "."
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+asyncio_mode = "auto"
+
+[tool.ruff]
+target-version = "py311"
+line-length = 120
+exclude = [".venv", "__pycache__"]
+
+[tool.ruff.lint]
+select = ["E", "F", "I", "B", "UP"]
+
+[tool.mypy]
+python_version = "3.11"
+strict = true
+files = ["agent/tools.py", "agent/matcher.py"]

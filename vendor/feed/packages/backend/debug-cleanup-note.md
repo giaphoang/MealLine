@@ -1,0 +1,1 @@
+# Debug files cleaned up after Approach 3 implementation\n# These were temporary debugging files for timezone analysis\n

@@ -1,0 +1,38 @@
+{
+  "dependencies": {
+    "next": "^15.5.0",
+    "pg": "^8.13.0",
+    "react": "^19.1.0",
+    "react-dom": "^19.1.0",
+    "twilio": "^5.10.4",
+    "zod": "^3.23.8"
+  },
+  "description": "Accessible food-delivery assistance intake and coordination (demonstration build)",
+  "devDependencies": {
+    "@types/node": "^22.0.0",
+    "@types/pg": "^8.11.0",
+    "@types/react": "^19.1.0",
+    "@types/react-dom": "^19.1.0",
+    "tsx": "^4.19.0",
+    "typescript": "^5.6.0"
+  },
+  "name": "mealline",
+  "private": true,
+  "scripts": {
+    "agent": "bash voice_agent/run.sh",
+    "test:isolated": "node scripts/test-isolated.mjs",
+    "build": "next build",
+    "dev": "next dev",
+    "eval": "node scripts/test-isolated.mjs --eval",
+    "migrate": "tsx scripts/migrate.ts",
+    "reset-demo": "tsx scripts/reset-demo.ts",
+    "seed": "tsx scripts/seed.ts",
+    "start": "next start",
+    "test": "node scripts/test-isolated.mjs",
+    "typecheck": "tsc --noEmit",
+    "worker": "tsx scripts/worker.ts",
+    "worker:phone": "node --env-file=.env --import tsx scripts/phone-worker.ts",
+    "test:voice-webhooks": "node scripts/voice-webhook-check.mjs"
+  },
+  "version": "0.1.0"
+}

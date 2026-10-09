@@ -1,0 +1,16 @@
+{
+  "repository": "https://github.com/mattgeiger/williamtemple-feed",
+  "commit": "90525d05cebb58893945d884c43d64cbe468d958",
+  "version": "1.8.1",
+  "license": "AGPL-3.0-or-later",
+  "source_directories": ["packages/backend", "packages/frontend", "docs"],
+  "adaptations": [
+    "MealLine identity and configurable staff email domains",
+    "Workspace mounted at /feed with legacy MealLine URL aliases",
+    "Additive household intake, basket, volunteer, and delivery models",
+    "Shared original MealLine matching rules and exact inventory quantities",
+    "Staff workflows, packing PDF, and extended backup/restore contract",
+    "Fail-closed staff authentication and scoped voice ingestion credential",
+    "Direct dependency versions pinned to upstream lockfiles"
+  ]
+}

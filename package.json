@@ -1,0 +1,40 @@
+{
+  "name": "mealline",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "workspaces": [
+    "packages/core",
+    "vendor/feed/packages/backend",
+    "vendor/feed/packages/frontend"
+  ],
+  "scripts": {
+    "dev": "node scripts/run.mjs dev",
+    "dev:local": "node scripts/run.mjs dev --local-login",
+    "build": "node scripts/build.mjs",
+    "start": "node scripts/run.mjs start",
+    "setup": "node --experimental-strip-types scripts/setup.mjs",
+    "test:smoke": "node scripts/integration-test.mjs",
+    "test:auth": "npm run test --workspace @mealline/feed-backend -- --run src/middleware/auth/__tests__/development-login.test.ts src/middleware/auth/__tests__/jwt-middleware.test.ts",
+    "test:pdf": "node scripts/integration-test.mjs --pdf",
+    "test:browser": "node scripts/integration-test.mjs --browser --artifacts",
+    "migrate": "node scripts/migrate.mjs",
+    "dev:frontend": "npm run dev --workspace @mealline/feed-frontend",
+    "phone:prepare": "node scripts/prepare-client-phone.mjs",
+    "phone:check": "node scripts/prepare-client-phone.mjs --check",
+    "test": "npm run test --workspace @mealline/core && node --test scripts/browser.test.mjs scripts/phone-configuration.test.mjs scripts/branding-migration.test.mjs && npm run test:auth && node scripts/integration-test.mjs"
+  },
+  "dependencies": {
+    "@mealline/core": "*",
+    "dotenv": "^17.2.1",
+    "pg": "^8.13.1"
+  },
+  "devDependencies": {
+    "@types/pg": "^8.11.0",
+    "typescript": "5.8.3"
+  },
+  "overrides": {
+    "@types/react": "19.2.18"
+  },
+  "license": "AGPL-3.0-or-later"
+}
